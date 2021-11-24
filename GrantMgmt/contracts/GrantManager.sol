@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: MIT
-pragma solidity 0.8.10;
+pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/token/ERC20/ERC20.sol";
 import "@openzeppelin/contracts/token/ERC20/extensions/ERC20Burnable.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
@@ -42,11 +42,45 @@ contract GrantManager is ERC20, ERC20Burnable, Ownable, Pausable {
         bool completed;
     }
     
-
     /**
      * @dev Create an array of 'AwardInfo' structs
      */
     AwardInfo[] public awards;
+
+// ****************** Start Payment Request *****************
+    struct PaymentInfo {
+        string grantNumber;
+        uint AwardIDNum; // location in array
+        address paymentSender;
+        string fileURI; // file hash
+        uint invLaborCLINValue;
+        uint invTravelCLINValue;
+        uint invOdcValue;
+        uint invTotalAwardValue;
+        string timeSubmitted; // get timestamp
+        bool successfullySubmitted;
+    }
+
+     /**
+     * @dev Create an array of 'PaymentInfo' structs
+     */
+    PaymentInfo[] public payments;
+
+    // see this for tips...
+    //https://solidity-by-example.org/app/erc20/
+    
+// ****************** End Payment Request *****************
+
+
+
+// ****************** Start IPFS Behavior *****************
+    mapping (address => string) public userFiles;
+
+    function setFile(string memory file) external {
+        userFiles[msg.sender] = file;
+    }
+// ****************** End IPFS Behavior *****************
+
 
     constructor() ERC20("NSFCTokens", "NSFC") {
 
@@ -152,4 +186,16 @@ contract GrantManager is ERC20, ERC20Burnable, Ownable, Pausable {
         increaseAllowance(_awardeeAddr, _totalAwardValue);
 
     }
+
+    /**
+    * Fallback function - Called if other functions don't match call or
+    * sent ether without data
+    * Typically, called when invalid data is sent
+    * Added so ether sent to this contract is reverted if the contract fails
+    * otherwise, the sender's money is transferred to contract
+    */
+    fallback () external payable {
+        revert();
+    }
+
 }

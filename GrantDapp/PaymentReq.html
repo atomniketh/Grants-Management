@@ -2,40 +2,55 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8" />
-    <title>Document</title>
+    <title>Submit Invoice for Payment</title>
 </head>
+
+
+<!-- 
+
+Get active wallet address
+
+Look up grants for that address
+
+Don't show form if there is no matching Address in existing awards
+
+Populate dropdown of grants if multiple available
+
+Get available balance per contract state
+
+Get available allowance per contract state
+
+Also compare to getBalance to see if they subbed anything out
+
+Make sure Invoiced Amount <= Available Balance
+
+
+ -->
 <body>
 
-<form class="generated-form"  method="POST" action="submit.php" enctype="multipart/form-data" target="_self">
+<form class="generated-form"  method="POST" action="" enctype="multipart/form-data" target="_self">
     <fieldset>
       <legend> Payment Request:: </legend>
        
-        <label for="text">Vendor:</label><br>
-        <input type="text" id="text" name="text"><br>
+        <label for="text">Vendor:</label> <input type="text" id="vendor" name="vendor"><br>
       
-        <label for="text">Grant Number:</label><br>
-        <input type="text" id="text" name="text"><br>
+        <label for="text">Grant Number:</label> <input type="text" id="grant" name="grant"><br>
 
-        <label for="text">Available Balance:</label><br>
-        <input type="text" id="text" name="text"><br>
+        <label for="text">Available Balance:</label> <input type="text" id="availBalance" name="availBalance"><br>
 
-        <label for="text">Labor CLIN:</label><br>
-        <input type="text" id="text" name="text"><br>
+        <label for="text">Labor CLIN:</label> <input type="text" id="laborClin" name="laborClin"><br>
 
-        <label for="text">Travel CLIN:</label><br>
-        <input type="text" id="text" name="text"><br>
+        <label for="text">Travel CLIN:</label> <input type="text" id="travelCLin" name="travelCLin"><br>
 
-        <label for="text">ODC CLIN:</label><br>
-        <input type="text" id="text" name="text"><br>
+        <label for="text">ODC CLIN:</label> <input type="text" id="odcClin" name="odcClin"><br>
 
-        <label for="text">Total Invoice:</label><br>
-        <input type="text" id="text" name="text"><br>
+        <label for="text">Total Invoice:</label> <input type="text" id="totalInvoice" name="totalInvoice"><br>
 
         <label for="file">File:</label><br>
-        <input type="file" id="file" name="file"><br><br>
+        <input type="file" id="fileAttachment" name="fileAttachment"><br><br>
 
         <label for="text">Comments:</label><br>
-        <textarea id="w3codeGenText" name="textarea" rows="3" cols="50"> 
+        <textarea id="addlComments" name="addlComments" rows="3" cols="50"> 
         </textarea><br><br>
         
     </fieldset>
