@@ -607,9 +607,13 @@ const ssABI =
 		"type": "function"
 	}
 ]
-  
-  const theAuditLink = document.getElementById('auditLink');
-  theAuditLink.href = `https://ropsten.etherscan.io/address/` + ssAddress;
+  try {
+	const theAuditLink = document.getElementById('auditLink');
+	theAuditLink.href = `https://ropsten.etherscan.io/address/` + ssAddress;
+  } catch (error) {
+	  console.log('No audit hyperlink exists, prob missing header.')
+  }
+
   
   var web3 = new Web3(window.ethereum)
 

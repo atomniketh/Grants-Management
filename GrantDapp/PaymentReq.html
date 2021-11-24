@@ -3,20 +3,25 @@
 <head>
     <meta charset="UTF-8" />
     <title>Submit Invoice for Payment</title>
+
+    <link rel="icon" type="image/png" href="images/faviconCSE.png" sizes="32x32"> 
+
+    <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
+
 </head>
 
 
 <!-- 
 
-Get active wallet address
+X Get active wallet address
 
-Look up grants for that address
+X Look up grants for that address
 
 Don't show form if there is no matching Address in existing awards
 
-Populate dropdown of grants if multiple available
+X Populate dropdown of grants if multiple available
 
-Get available balance per contract state
+X Get available balance per contract state
 
 Get available allowance per contract state
 
@@ -28,34 +33,59 @@ Make sure Invoiced Amount <= Available Balance
  -->
 <body>
 
-<form class="generated-form"  method="POST" action="" enctype="multipart/form-data" target="_self">
+<!-- <form class="generated-form"  method="POST" action="" enctype="multipart/form-data" target="_self"> -->
+    <form onsubmit="myFunction(); return false;">
     <fieldset>
       <legend> Payment Request:: </legend>
        
         <label for="text">Vendor:</label> <input type="text" id="vendor" name="vendor"><br>
-      
+      <br>
         <label for="text">Grant Number:</label> <input type="text" id="grant" name="grant"><br>
+        <br>
+
+        <label for="text">Public Key:</label> <input type="text" id="pKey" name="pKey" size="45"><br>
+        <br>
+
+        <label for="text">Awarded Value:</label> <input type="text" id="awardValue" name="awardValue"><br>
+        <br>
 
         <label for="text">Available Balance:</label> <input type="text" id="availBalance" name="availBalance"><br>
+        <br>
 
         <label for="text">Labor CLIN:</label> <input type="text" id="laborClin" name="laborClin"><br>
+        <br>
 
         <label for="text">Travel CLIN:</label> <input type="text" id="travelCLin" name="travelCLin"><br>
+        <br>
 
         <label for="text">ODC CLIN:</label> <input type="text" id="odcClin" name="odcClin"><br>
+        <br>
 
         <label for="text">Total Invoice:</label> <input type="text" id="totalInvoice" name="totalInvoice"><br>
+        <br>
 
         <label for="file">File:</label><br>
         <input type="file" id="fileAttachment" name="fileAttachment"><br><br>
+        <br>
 
         <label for="text">Comments:</label><br>
         <textarea id="addlComments" name="addlComments" rows="3" cols="50"> 
         </textarea><br><br>
         
+        <button class="full" id="mm-connect">Submit for Payment</button>
+        <br>
+        
     </fieldset>
     </form>
     
-
+    <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-4793b73c6332f7f14a9b6bba5d5e62748e9d1bd0b5c52d7af6376f3d1c625d7e.js"></script>
 </body>
+<script src="src/dappWeb3.js"></script>
+<script src="src/dappPayment.js"></script>
+<!-- This script prevents my forms from reloading the page onClick. -->
+<script language="javascript"><!--
+  function myFunction() {
+      // Do stuff
+  }
+//--></script>
 </html>
