@@ -1,3 +1,18 @@
+// const ipfs = create()
+// const file = await ipfs.add(urlSource('https://ipfs.io/images/ipfs-logo.svg'))
+// console.log(file)
+
+ console.log(window.IpfsHttpClient.create());
+
+/*
+{
+  path: 'ipfs-logo.svg',
+  cid: CID('QmTqZhR6f7jzdhLgPArDPnsbZpvvgxzCZycXK7ywkLxSyU'),
+  size: 3243
+}
+*/
+
+
 window.addEventListener('load', function() {
   
     if (typeof window.ethereum !== 'undefined') {
