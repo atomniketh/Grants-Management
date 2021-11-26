@@ -8,6 +8,86 @@
 
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
 
+
+    <!-- <style>
+      body {
+        font-family: sans-serif;
+      }
+      a {
+        color: #369;
+      }
+      .note {
+        width: 500px;
+        margin: 50px auto;
+        font-size: 1.1em;
+        color: #333;
+        text-align: justify;
+      }
+      #drop-area {
+        border: 2px dashed #ccc;
+        border-radius: 20px;
+        width: 480px;
+        margin: 50px auto;
+        padding: 20px;
+      }
+      #drop-area.highlight {
+        border-color: purple;
+      }
+      p {
+        margin-top: 0;
+      }
+      .my-form {
+        margin-bottom: 10px;
+      }
+      #gallery {
+        margin-top: 10px;
+      }
+      #gallery img {
+        width: 150px;
+        margin-bottom: 10px;
+        margin-right: 10px;
+        vertical-align: middle;
+      }
+      .button {
+        display: inline-block;
+        padding: 10px;
+        background: #ccc;
+        cursor: pointer;
+        border-radius: 5px;
+        border: 1px solid #ccc;
+      }
+      .button:hover {
+        background: #ddd;
+      }
+      #fileElem {
+        display: none;
+      }
+      </style>
+      
+        <script>
+        window.console = window.console || function(t) {};
+      </script>
+      
+        
+        
+        <script>
+        if (document.location.search.match(/type=embed/gi)) {
+          window.parent.postMessage("resize", "*");
+        }
+      </script> -->
+
+<script>updateList = function() {
+  var input = document.getElementById('file');
+  var output = document.getElementById('fileList');
+
+  output.innerHTML = '<ul>';
+  for (var i = 0; i < input.files.length; ++i) {
+    output.innerHTML += '<li>' + input.files.item(i).name + '</li>';
+  }
+  output.innerHTML += '</ul>';
+}</script>
+
+
 </head>
 
 
@@ -38,10 +118,14 @@ Make sure Invoiced Amount <= Available Balance
 <body>
 
 <!-- <form class="generated-form"  method="POST" action="" enctype="multipart/form-data" target="_self"> -->
-    <form onsubmit="myFunction(); return false;">
+    <form onsubmit="myFunction(); return false;" enctype="multipart/form-data">
+      <!-- <form method="post" action="PaymentProc.html" enctype="multipart/form-data"> -->
     <fieldset>
       <legend> Payment Request:: </legend>
-       
+
+      <label for="text">Award ID:</label> <input type="text" id="awardID" name="awardID"><br>
+      <br>
+
         <label for="text">Vendor:</label> <input type="text" id="vendor" name="vendor"><br>
       <br>
         <label for="text">Grant Number:</label> <input type="text" id="grant" name="grant"><br>
@@ -59,7 +143,7 @@ Make sure Invoiced Amount <= Available Balance
         <label for="text">Labor CLIN:</label> <input type="text" id="laborClin" name="laborClin"><br>
         <br>
 
-        <label for="text">Travel CLIN:</label> <input type="text" id="travelCLin" name="travelCLin"><br>
+        <label for="text">Travel CLIN:</label> <input type="text" id="travelClin" name="travelClin"><br>
         <br>
 
         <label for="text">ODC CLIN:</label> <input type="text" id="odcClin" name="odcClin"><br>
@@ -69,23 +153,156 @@ Make sure Invoiced Amount <= Available Balance
         <br>
 
         <label for="file">File:</label><br>
-        <input type="file" id="fileAttachment" name="fileAttachment"><br><br>
+        <!-- <input type="file" id="fileAttachment" name="fileAttachment" multiple accept=".doc, .docx, .pdf, .xls, .xlsx, .ppt, .pptx"><br><br> -->
+
+        <input type="file" name="file" id="file" multiple accept=".doc, .docx, .pdf, .xls, .xlsx, .ppt, .pptx" onchange="javascript:updateList()" />
+        <br/>Selected files:
+        <div id="fileList"></div>
+
         <br>
 
         <label for="text">Comments:</label><br>
         <textarea id="addlComments" name="addlComments" rows="3" cols="50"> 
         </textarea><br><br>
+
+        <label for="text">File contents:</label><br>
+        <div id="fileContents" name="fileContents"> 
+        </div><br><br>
         
-        <button class="full" id="mm-connect">Submit for Payment</button>
+        <button class="full" id="submitInvoice">Submit for Payment</button>
         <br>
         
     </fieldset>
     </form>
     
-    <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-4793b73c6332f7f14a9b6bba5d5e62748e9d1bd0b5c52d7af6376f3d1c625d7e.js"></script>
+
+    <!-- <div id="drop-area">
+      <form class="my-form">
+        <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
+        <input type="file" id="fileElem" multiple accept=".doc, .docx, .pdf, .xls, .xlsx, .ppt, .pptx" onchange="handleFiles(this.files)">
+        <label class="button" for="fileElem">Select some files</label>
+      </form>
+      <progress id="progress-bar" max=100 value=0></progress>
+      <div id="gallery" /></div>
+    </div>
+    <div class="note"><strong>Note: I've Removed the ability to actually upload files (it will error out silently since there is no error handler, so it'll still appear to work) because you guys were constantly filling up my Cloudinary account. Please <a href="https://cloudinary.com/invites/lpov9zyyucivvxsnalc5/j6iiupngdmwwwqspjtml">create your own account</a> and replace the "joezim007" and "ujpu6gyk" bits in the JavaScript with your own account's information.</strong></div>
+        <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
+    
+      
+          <script id="rendered-js" >
+    // ************************ Drag and drop ***************** //
+    let dropArea = document.getElementById("drop-area")
+    
+    // Prevent default drag behaviors
+    ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, preventDefaults, false);
+      document.body.addEventListener(eventName, preventDefaults, false);
+    })
+    
+    // Highlight drop area when item is dragged over it
+    ;['dragenter', 'dragover'].forEach(eventName => {
+      dropArea.addEventListener(eventName, highlight, false);
+    });
+    
+    ['dragleave', 'drop'].forEach(eventName => {
+      dropArea.addEventListener(eventName, unhighlight, false);
+    });
+    
+    // Handle dropped files
+    dropArea.addEventListener('drop', handleDrop, false);
+    
+    function preventDefaults(e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
+    
+    function highlight(e) {
+      dropArea.classList.add('highlight');
+    }
+    
+    function unhighlight(e) {
+      dropArea.classList.remove('active');
+    }
+    
+    function handleDrop(e) {
+      var dt = e.dataTransfer;
+      var files = dt.files;
+    
+      handleFiles(files);
+    }
+    
+    let uploadProgress = [];
+    let progressBar = document.getElementById('progress-bar');
+    
+    function initializeProgress(numFiles) {
+      progressBar.value = 0;
+      uploadProgress = [];
+    
+      for (let i = numFiles; i > 0; i--) {if (window.CP.shouldStopExecution(0)) break;
+        uploadProgress.push(0);
+      }window.CP.exitedLoop(0);
+    }
+    
+    function updateProgress(fileNumber, percent) {
+      uploadProgress[fileNumber] = percent;
+      let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length;
+      console.debug('update', fileNumber, percent, total);
+      progressBar.value = total;
+    }
+    
+    function handleFiles(files) {
+      files = [...files];
+      initializeProgress(files.length);
+      files.forEach(uploadFile);
+      files.forEach(previewFile);
+    }
+    
+    function previewFile(file) {
+      let reader = new FileReader();
+      reader.readAsDataURL(file);
+      reader.onloadend = function () {
+        let img = document.createElement('img');
+        img.src = reader.result;
+        document.getElementById('gallery').appendChild(img);
+      };
+    }
+    
+    function uploadFile(file, i) {
+      var url = 'https://api.cloudinary.com/v1_1/joezimim007/image/upload';
+      var xhr = new XMLHttpRequest();
+      var formData = new FormData();
+      xhr.open('POST', url, true);
+      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
+    
+      // Update progress (can be used to show progress indicator)
+      xhr.upload.addEventListener("progress", function (e) {
+        updateProgress(i, e.loaded * 100.0 / e.total || 100);
+      });
+    
+      xhr.addEventListener('readystatechange', function (e) {
+        if (xhr.readyState == 4 && xhr.status == 200) {
+          updateProgress(i, 100); // <- Add this
+        } else
+        if (xhr.readyState == 4 && xhr.status != 200) {
+          // Error. Inform the user
+        }
+      });
+    
+      formData.append('upload_preset', 'ujpu6gyk');
+      formData.append('file', file);
+      xhr.send(formData);
+    }
+    //# sourceURL=pen.js
+        </script> -->
+
+
+    <!-- <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-4793b73c6332f7f14a9b6bba5d5e62748e9d1bd0b5c52d7af6376f3d1c625d7e.js"></script> -->
 </body>
 <script src="src/dappWeb3.js"></script>
-<script src="src/dappPayment.js"></script>
+<script type="module" src="src/dappPayment.js"></script>
+<!-- loading the minified version using jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+
 <!-- This script prevents my forms from reloading the page onClick. -->
 <script language="javascript"><!--
   function myFunction() {

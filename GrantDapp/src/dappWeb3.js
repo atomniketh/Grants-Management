@@ -611,7 +611,7 @@ const ssABI =
 	const theAuditLink = document.getElementById('auditLink');
 	theAuditLink.href = `https://ropsten.etherscan.io/address/` + ssAddress;
   } catch (error) {
-	  console.log('No audit hyperlink exists, prob missing header.')
+	  // console.log('No audit hyperlink exists, prob missing header.')
   }
 
   
