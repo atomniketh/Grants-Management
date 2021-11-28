@@ -3,8 +3,10 @@
     "@openzeppelin/contracts": "^4.3.2",
     "bip39": "^3.0.4",
     "dotenv": "^10.0.0",
+    "express": "^4.17.1",
     "fs": "^0.0.1-security",
     "g": "^2.0.1",
+    "ipfs-api": "^26.1.2",
     "ipfs-core": "^0.12.2",
     "ipfs-http-client": "^54.0.2",
     "requirejs": "^2.3.6",
@@ -19,5 +21,22 @@
     "@openzeppelin/truffle-upgrades": "^1.10.0",
     "@truffle/hdwallet-provider": "^1.0.37",
     "truffle-plugin-verify": "^0.5.18"
-  }
+  },
+  "name": "grants-management",
+  "description": "**Title: Blockchain Dev Bootcamp Final Project**",
+  "version": "1.0.0",
+  "main": "soljson-v0.8.9+commit.e5eed63a.js",
+  "scripts": {
+    "test": "mocha"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/atomniketh/Grants-Management.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/atomniketh/Grants-Management/issues"
+  },
+  "homepage": "https://github.com/atomniketh/Grants-Management#readme"
 }

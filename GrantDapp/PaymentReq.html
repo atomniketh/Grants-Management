@@ -7,74 +7,9 @@
     <link rel="icon" type="image/png" href="images/faviconCSE.png" sizes="32x32"> 
 
     <script src="https://cdn.jsdelivr.net/npm/web3@latest/dist/web3.min.js"></script>
-
-
-    <!-- <style>
-      body {
-        font-family: sans-serif;
-      }
-      a {
-        color: #369;
-      }
-      .note {
-        width: 500px;
-        margin: 50px auto;
-        font-size: 1.1em;
-        color: #333;
-        text-align: justify;
-      }
-      #drop-area {
-        border: 2px dashed #ccc;
-        border-radius: 20px;
-        width: 480px;
-        margin: 50px auto;
-        padding: 20px;
-      }
-      #drop-area.highlight {
-        border-color: purple;
-      }
-      p {
-        margin-top: 0;
-      }
-      .my-form {
-        margin-bottom: 10px;
-      }
-      #gallery {
-        margin-top: 10px;
-      }
-      #gallery img {
-        width: 150px;
-        margin-bottom: 10px;
-        margin-right: 10px;
-        vertical-align: middle;
-      }
-      .button {
-        display: inline-block;
-        padding: 10px;
-        background: #ccc;
-        cursor: pointer;
-        border-radius: 5px;
-        border: 1px solid #ccc;
-      }
-      .button:hover {
-        background: #ddd;
-      }
-      #fileElem {
-        display: none;
-      }
-      </style>
-      
-        <script>
-        window.console = window.console || function(t) {};
-      </script>
-      
-        
-        
-        <script>
-        if (document.location.search.match(/type=embed/gi)) {
-          window.parent.postMessage("resize", "*");
-        }
-      </script> -->
+   
+    <!-- <script src="./src/scripts/require.js"></script> -->
+    <!-- <script data-main="src/dappPayment.js" src="src/require.js"></script> -->
 
 <script>updateList = function() {
   var input = document.getElementById('file');
@@ -87,6 +22,8 @@
   output.innerHTML += '</ul>';
 }</script>
 
+<!-- loading the minified version using jsDelivr -->
+<script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
 
 </head>
 
@@ -117,6 +54,38 @@ Make sure Invoiced Amount <= Available Balance
  -->
 <body>
 
+  <h1>IPFS in the Browser</h1>
+  <p>This page creates an IPFS node in your browser and drops it into the global Javascript namespace as <b><em style="background-color:#d7d6d6">node</em></b>. Open the console to play around with it.</p>
+  <p>Note that opening two tabs of this page in the same browser won't work well, because they will share node configuration. You'll end up trying to run two instances of the same node, with the same private key and identity, which is a Bad Idea.</p>
+  <h1 id="status">Node status: offline</h1>
+
+  <h2>Some suggestions</h2>
+
+  <p>Try adding a new file:</p>
+
+  <code style="display:block; white-space:pre-wrap; background-color:#d7d6d6">
+    node.files.add(new node.types.Buffer('Hello world!'), (err, filesAdded) => {
+      if (err) {
+        return console.error('Error - ipfs add', err, res)
+      }
+
+      filesAdded.forEach((file) => console.log('successfully stored', file.hash))
+    })
+  </code>
+
+  <p>You can cat that same file. If you used the exact same string as above ('Hello world!') you should have an hash like this: 'QmQzCQn4puG4qu8PVysxZmscmQ5vT1ZXpqo7f58Uh9QfyY'</p>
+
+  <code style="display:block; white-space:pre-wrap; background-color:#d7d6d6">
+    node.files.cat('QmQzCQn4puG4qu8PVysxZmscmQ5vT1ZXpqo7f58Uh9QfyY', function (err, data) {
+      if (err) {
+        return console.error('Error - ipfs files cat', err, res)
+      }
+
+      console.log(data.toString())
+    })
+  </code>
+
+  
 <!-- <form class="generated-form"  method="POST" action="" enctype="multipart/form-data" target="_self"> -->
     <form onsubmit="myFunction(); return false;" enctype="multipart/form-data">
       <!-- <form method="post" action="PaymentProc.html" enctype="multipart/form-data"> -->
@@ -175,133 +144,14 @@ Make sure Invoiced Amount <= Available Balance
     </fieldset>
     </form>
     
-
-    <!-- <div id="drop-area">
-      <form class="my-form">
-        <p>Upload multiple files with the file dialog or by dragging and dropping images onto the dashed region</p>
-        <input type="file" id="fileElem" multiple accept=".doc, .docx, .pdf, .xls, .xlsx, .ppt, .pptx" onchange="handleFiles(this.files)">
-        <label class="button" for="fileElem">Select some files</label>
-      </form>
-      <progress id="progress-bar" max=100 value=0></progress>
-      <div id="gallery" /></div>
-    </div>
-    <div class="note"><strong>Note: I've Removed the ability to actually upload files (it will error out silently since there is no error handler, so it'll still appear to work) because you guys were constantly filling up my Cloudinary account. Please <a href="https://cloudinary.com/invites/lpov9zyyucivvxsnalc5/j6iiupngdmwwwqspjtml">create your own account</a> and replace the "joezim007" and "ujpu6gyk" bits in the JavaScript with your own account's information.</strong></div>
-        <script src="https://cpwebassets.codepen.io/assets/common/stopExecutionOnTimeout-1b93190375e9ccc259df3a57c1abc0e64599724ae30d7ea4c6877eb615f89387.js"></script>
-    
-      
-          <script id="rendered-js" >
-    // ************************ Drag and drop ***************** //
-    let dropArea = document.getElementById("drop-area")
-    
-    // Prevent default drag behaviors
-    ;['dragenter', 'dragover', 'dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, preventDefaults, false);
-      document.body.addEventListener(eventName, preventDefaults, false);
-    })
-    
-    // Highlight drop area when item is dragged over it
-    ;['dragenter', 'dragover'].forEach(eventName => {
-      dropArea.addEventListener(eventName, highlight, false);
-    });
-    
-    ['dragleave', 'drop'].forEach(eventName => {
-      dropArea.addEventListener(eventName, unhighlight, false);
-    });
-    
-    // Handle dropped files
-    dropArea.addEventListener('drop', handleDrop, false);
-    
-    function preventDefaults(e) {
-      e.preventDefault();
-      e.stopPropagation();
-    }
-    
-    function highlight(e) {
-      dropArea.classList.add('highlight');
-    }
-    
-    function unhighlight(e) {
-      dropArea.classList.remove('active');
-    }
-    
-    function handleDrop(e) {
-      var dt = e.dataTransfer;
-      var files = dt.files;
-    
-      handleFiles(files);
-    }
-    
-    let uploadProgress = [];
-    let progressBar = document.getElementById('progress-bar');
-    
-    function initializeProgress(numFiles) {
-      progressBar.value = 0;
-      uploadProgress = [];
-    
-      for (let i = numFiles; i > 0; i--) {if (window.CP.shouldStopExecution(0)) break;
-        uploadProgress.push(0);
-      }window.CP.exitedLoop(0);
-    }
-    
-    function updateProgress(fileNumber, percent) {
-      uploadProgress[fileNumber] = percent;
-      let total = uploadProgress.reduce((tot, curr) => tot + curr, 0) / uploadProgress.length;
-      console.debug('update', fileNumber, percent, total);
-      progressBar.value = total;
-    }
-    
-    function handleFiles(files) {
-      files = [...files];
-      initializeProgress(files.length);
-      files.forEach(uploadFile);
-      files.forEach(previewFile);
-    }
-    
-    function previewFile(file) {
-      let reader = new FileReader();
-      reader.readAsDataURL(file);
-      reader.onloadend = function () {
-        let img = document.createElement('img');
-        img.src = reader.result;
-        document.getElementById('gallery').appendChild(img);
-      };
-    }
-    
-    function uploadFile(file, i) {
-      var url = 'https://api.cloudinary.com/v1_1/joezimim007/image/upload';
-      var xhr = new XMLHttpRequest();
-      var formData = new FormData();
-      xhr.open('POST', url, true);
-      xhr.setRequestHeader('X-Requested-With', 'XMLHttpRequest');
-    
-      // Update progress (can be used to show progress indicator)
-      xhr.upload.addEventListener("progress", function (e) {
-        updateProgress(i, e.loaded * 100.0 / e.total || 100);
-      });
-    
-      xhr.addEventListener('readystatechange', function (e) {
-        if (xhr.readyState == 4 && xhr.status == 200) {
-          updateProgress(i, 100); // <- Add this
-        } else
-        if (xhr.readyState == 4 && xhr.status != 200) {
-          // Error. Inform the user
-        }
-      });
-    
-      formData.append('upload_preset', 'ujpu6gyk');
-      formData.append('file', file);
-      xhr.send(formData);
-    }
-    //# sourceURL=pen.js
-        </script> -->
-
-
-    <!-- <script src="https://cpwebassets.codepen.io/assets/editor/iframe/iframeRefreshCSS-4793b73c6332f7f14a9b6bba5d5e62748e9d1bd0b5c52d7af6376f3d1c625d7e.js"></script> -->
 </body>
 <script src="src/dappWeb3.js"></script>
 <script type="module" src="src/dappPayment.js"></script>
-<!-- loading the minified version using jsDelivr -->
-<script src="https://cdn.jsdelivr.net/npm/ipfs-http-client/dist/index.min.js"></script>
+
+
+<!-- <script src="https://unpkg.com/ipfs-api/dist/index.js"></script> -->
+<!-- <script src="https://cdn.jsdelivr.net/npm/ipfs/dist/index.min.js"></script> -->
+
 
 <!-- This script prevents my forms from reloading the page onClick. -->
 <script language="javascript"><!--

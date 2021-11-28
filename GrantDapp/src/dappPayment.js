@@ -1,17 +1,75 @@
-// const ipfs = create()
-// const file = await ipfs.add(urlSource('https://ipfs.io/images/ipfs-logo.svg'))
-// console.log(file)
+const projectId = '21UXYun1jX8xQTLalR3oyYynzEx'
+const projectSecret = '1ba644f141feb79e0d7f2dec897883d5'
+const auth = 'Basic ' + projectId + ':' + projectSecret.toString('base64')
 
- console.log(window.IpfsHttpClient.create());
+// const data = 'Hello, Chris Stone'
 
-/*
-{
-  path: 'ipfs-logo.svg',
-  cid: CID('QmTqZhR6f7jzdhLgPArDPnsbZpvvgxzCZycXK7ywkLxSyU'),
-  size: 3243
+const client = await IpfsHttpClient.create({
+  host: 'ipfs.infura.io',
+  port: 5001,
+  protocol: 'https',
+  headers: {
+     authorization: auth
+   }
+})
+
+const version = await client.version();
+console.log("IPFS Node Version:", version.version);
+const { cid } = await client.add('hello world')
+
+try {
+  client.pin.add(cid)
+  console.log('success with ' + cid)
+} catch (error) {
+  console.log(error)  
 }
-*/
+console.log(cid)
+const cat = async (cid) => {
+  const content = []
 
+  for await (const chunk of client.cat(cid)) {
+    content.push(chunk)
+
+  }
+console.log(content);
+  return content
+}
+// console.log(await client.id())
+
+// client.pin.add('QmeGAVddnBSnKc1DLE7DLV9uuTqo5F7QbaveTjr45JUdQn').then((res) => {
+//   console.log(res)
+// })
+
+
+// const file = await client.add({
+//   path: 'hello.txt',
+//   content: ('Hello World 101')
+// })
+
+// try {
+//   client.add(file)
+  
+// } catch (error) {
+//   console.log(error)  
+// }
+
+// client.files(file)
+// client.files.add(file, function (err, file) {
+//   if (err) {
+//     console.log(err);
+//   }
+//   console.log(file)
+// })
+
+// console.log('Added file:', file.path, file.cid.toString())
+
+// const dataMore = (await (client.cat(file.cid)))
+
+// console.log('Added file contents:', (dataMore))
+
+
+//const id = await client.id()
+//    console.log('Daemon active\nID: ' + id.id)
 
 window.addEventListener('load', function() {
   
@@ -29,7 +87,6 @@ window.addEventListener('load', function() {
 
   window.onload = async () => {
 
-    // console.log(ethereum.selectedAddress);
     var currentUser = ethereum.selectedAddress;
 	// document.getElementById('pKey').value = currentUser;
     var valueBalance = await grantMgmt.methods.balanceOf(currentUser).call()
