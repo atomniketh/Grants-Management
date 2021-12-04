@@ -38,7 +38,7 @@ window.addEventListener('load', function() {
             document.getElementById('awardValue').value = arr[10];
             document.getElementById('pKey').value = currentUser;
          } else {
-            // console.log('No matching award found for ' + currentUser);
+            console.log('No matching award found for ' + currentUser);
         }
 
 
@@ -88,23 +88,13 @@ if (document.getElementById('submitInvoice')) {
 
         const version = await client.version();
         console.log("IPFS Node Version:", version.version);
-        // const { cid } = await client.add('Greetings from Chris Stone! I love my kids!')
-        
-        
-        // try {
-        //   client.pin.add(cid)
-        //   console.log('https://ipfs.io/ipfs/' + cid)
-          
-        // } catch (error) {
-        //   console.log(error)  
-        // }
-        // console.log(cid)
+
+        // const { cid } = await client.add('Greetings from Chris Stone! I love my kids!')        
         // const cat = async (cid) => {
         //   const content = []
         
         //   for await (const chunk of client.cat(cid)) {
         //     content.push(chunk)
-        
         //   }
         // console.log(content);
         //   return content
@@ -117,14 +107,13 @@ if (document.getElementById('submitInvoice')) {
             console.log(input.files.item(i).name);
 
             try {
-              //client.pin.add(input.files[i])
               const file = await client.add(input.files[i])
 //              const { cid } = file
               client.pin.add(file.cid).then((res) => {
 //              client.pin.add('QmeGAVddnBSnKc1DLE7DLV9uuTqo5F7QbaveTjr45JUdQn')
                 console.log(res)
               })
-              console.log('cid: ' + file.path)
+//              console.log('cid: ' + file.path)
 //              console.log('file: ' + file)
               console.log('https://ipfs.io/ipfs/' + file.path)
               
