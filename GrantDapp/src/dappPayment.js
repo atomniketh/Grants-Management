@@ -73,9 +73,6 @@ if (document.getElementById('submitInvoice')) {
         const projectId = '21UXYun1jX8xQTLalR3oyYynzEx'
         const projectSecret = '1ba644f141feb79e0d7f2dec897883d5'
         const auth = 'Basic ' + projectId + ':' + projectSecret.toString('base64')
-        
-        // console.log(auth)
-        
         const client = await IpfsHttpClient.create({
           host: 'ipfs.infura.io',
           port: 5001,
@@ -84,12 +81,9 @@ if (document.getElementById('submitInvoice')) {
              authorization: auth
            }
         })
-        
-
         const version = await client.version();
         console.log("IPFS Node Version:", version.version);
-
-        // const { cid } = await client.add('Greetings from Chris Stone! I love my kids!')        
+         // const { cid } = await client.add('Greetings from Chris Stone! I love my kids!')        
         // const cat = async (cid) => {
         //   const content = []
         
@@ -100,23 +94,16 @@ if (document.getElementById('submitInvoice')) {
         //   return content
         // }
 
-
           for (var i = 0; i < input.files.length; ++i) {
-            
             
             console.log(input.files.item(i).name);
 
             try {
               const file = await client.add(input.files[i])
-//              const { cid } = file
-              client.pin.add(file.cid).then((res) => {
-//              client.pin.add('QmeGAVddnBSnKc1DLE7DLV9uuTqo5F7QbaveTjr45JUdQn')
-                console.log(res)
-              })
-//              console.log('cid: ' + file.path)
-//              console.log('file: ' + file)
+              // client.pin.add(file.cid).then((res) => {
+              //   console.log('Results of Pin: ' + res)
+              // })
               console.log('https://ipfs.io/ipfs/' + file.path)
-              
             } catch (error) {
               console.log(error)  
             }
@@ -134,12 +121,10 @@ if (document.getElementById('submitInvoice')) {
             // }
           }
     }
-
       const commentsValue = document.getElementById('addlComments').value.trim();
       console.log(commentsValue);
       const timeSubmitted = Date.now().toString();      
       console.log(timeSubmitted);
-
 
 	}
 }
