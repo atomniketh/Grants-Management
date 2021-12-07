@@ -151,7 +151,7 @@ contract GrantManager is ERC20, ERC20Burnable, Ownable, Pausable {
      *
      * Requirements:
      *
-     * - `account` cannot be the zero address.
+     * - `to` cannot be the zero address.
      */
     function mint(address to, uint256 amount) public onlyOwner {
         _mint(to, amount * 10 ** decimals());
