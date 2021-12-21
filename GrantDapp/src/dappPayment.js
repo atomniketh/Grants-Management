@@ -100,6 +100,11 @@ if (document.getElementById('submitInvoice')) {
 
             try {
               const file = await client.add(input.files[i])
+
+              // try client.pin.add above instead and see if it persists in Infura - Dec 21
+
+
+
               // client.pin.add(file.cid).then((res) => {
               //   console.log('Results of Pin: ' + res)
               // })
