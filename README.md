@@ -127,17 +127,9 @@ The frontend was developed in HTML/CSS/JS.
 
 This demo is hosted at: [GitHub Pages](https://chrisstonecse.github.io/index.html)
 
-# 5. Public Ethereum Address for NFT Certificate
-
-I would like my certification as an NFT sent to:
-
-```
-0x17Aa4c39d9B3996B2f7994da83E14c5ACB5f9d7b
-```
-
 *(ETH, ERC-20s, and Bored Ape Yacht Club NFTs are also accepted.)*
 
-# 6. Installing Dependencies
+# 5. Installing Dependencies
 
 Run the following commands to install dependencies needed for this project:
 
@@ -174,11 +166,11 @@ npm install --save-dev @truffle/hdwallet-provider
 npm install bip39 dotenv --save
 ```
 
-# 7. Accessing the Project
+# 6. Accessing the Project
 
    The Smart Contract is deployed to the Ropsten network at: '0x908E949F7795225c772e9cd61B44cA8CD492C9ca'
 
-# 8. Unit Testing
+# 7. Unit Testing
 
 The unit tests are contained in the file at: *GrantMgmt/test/grant_manager.js*.
 
@@ -217,6 +209,6 @@ To run all tests, simply run:
 truffle test
 ```
 
-# 9. Screencast of Project Walk Through
+# 8. Screencast of Project Walk Through
 
 Here is the link to a [screencast](https://www.loom.com/share/821b674da2fd4a8a98f8d6f73060072b) of me walking through the project.
